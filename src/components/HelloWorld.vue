@@ -1,58 +1,100 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div ref="componentRef" class="component-container" :class="{ 'fadeInUp': isVisible }">
+    <h2>旅行の日程</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>日付</th>
+        <th>活動</th>
+        <th>場所</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(item, index) in schedule" :key="index">
+        <td>{{ item.date }}</td>
+        <td>{{ item.activity }}</td>
+        <td>{{ item.location }}</td>
+        <td>
+          <router-link to="/about">About</router-link>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
+  setup() {
+    const schedule = ref([
+      { date: '2024-04-01', activity: '到着 & 宿泊', location: '京都' },
+      { date: '2024-04-02', activity: '神社訪問', location: '伏見稲荷大社' },
+      { date: '2024-04-03', activity: '文化体験', location: '清水寺' },
+      // ここに他の日程を追加
+    ]);
+    const componentRef = ref(null);
+    const isVisible = ref(false);
+
+    useIntersectionObserver(
+        componentRef,
+        ([{ isIntersecting }], observerElement) => {
+          isVisible.value = isIntersecting;
+          if (isIntersecting) observerElement.unobserve(componentRef.value);
+        },
+        { threshold: 0.5 }
+    );
+
+    return {
+      schedule,
+      componentRef,
+      isVisible,
+    };
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.component-container {
+  opacity: 0;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+/* テーブルのスタイル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
-a {
-  color: #42b983;
+
+th {
+  background-color: #f0f0f0;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 </style>
