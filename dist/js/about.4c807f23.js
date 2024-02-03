@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunktravel_agenda_vue"]=self["webpackChunktravel_agenda_vue"]||[]).push([[152],{8216:function(n,a,e){e.r(a),e.d(a,{default:function(){return o}});var u=e(4108);const t={class:"about"},r=(0,u.QD)("h1",null,"This is an about page",-1),s=[r];function c(n,a){return(0,u.Wz)(),(0,u.An)("div",t,s)}var l=e(4100);const v={},i=(0,l.c)(v,[["render",c]]);var o=i}}]);
+//# sourceMappingURL=about.4c807f23.js.map
