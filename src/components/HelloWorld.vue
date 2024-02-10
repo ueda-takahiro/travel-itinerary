@@ -1,71 +1,144 @@
 <template>
-  <div ref="componentRef" class="component-container" :class="{ 'fadeInUp': isVisible }">
+  <div>
     <h2>旅行の日程</h2>
-    <table>
+    <table ref="table1Ref" class="component-container" :class="{ 'fadeInUp': isVisible1 }">
       <thead>
       <tr>
-        <th>日付</th>
-        <th>活動</th>
-        <th>場所</th>
+        <th colspan="4" class="text-center header-title">
+          <span>2024/3/18</span>
+          <h3 class="p-0">博多</h3>
+        </th>
+      </tr>
+      <tr>
+        <th class="text-center">日付</th>
+        <th class="text-center">活動</th>
+        <th class="text-center">場所</th>
+        <th class="text-center">地図</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(item, index) in schedule" :key="index">
-        <td>{{ item.date }}</td>
+      <tr v-for="(item, index) in schedule1" :key="index">
+        <td>{{ item.time }}</td>
         <td>{{ item.activity }}</td>
         <td>{{ item.location }}</td>
         <td>
-          <router-link to="/about">About</router-link>
+          <div v-if="item.location_link">
+            <a target="_blank" :href="item.location_link">
+              {{ item.location }}
+            </a>
+          </div>
+          <div v-else>
+            {{ item.location }}
+          </div>
         </td>
+      </tr>
+      </tbody>
+    </table>
 
+    <table ref="table2Ref" class="component-container" :class="{ 'fadeInUp': isVisible2 }">
+      <thead>
+      <tr>
+        <th colspan="4" class="text-center header-title">2024/3/19</th>
+      </tr>
+      <tr>
+        <th class="text-center">日付</th>
+        <th class="text-center">活動</th>
+        <th class="text-center">場所</th>
+        <th class="text-center">地図</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="(item, index) in schedule2" :key="index">
+        <td>{{ item.time }}</td>
+        <td>{{ item.activity }}</td>
+        <td>{{ item.location }}</td>
+        <td>
+          <div v-if="item.location_link">
+            <a target="_blank" :href="item.location_link">
+              {{ item.location }}
+            </a>
+          </div>
+          <div v-else>
+            {{ item.location }}
+          </div>
+
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </template>
 
-<script>
-import { ref } from 'vue';
-import { useIntersectionObserver } from '@vueuse/core';
+<script setup>
+import {ref} from 'vue';
+import {useIntersectionObserver} from '@vueuse/core';
 
-export default {
-  setup() {
-    const schedule = ref([
-      { date: '2024-04-01', activity: '到着 & 宿泊', location: '京都' },
-      { date: '2024-04-02', activity: '神社訪問', location: '伏見稲荷大社' },
-      { date: '2024-04-03', activity: '文化体験', location: '清水寺' },
-      // ここに他の日程を追加
-    ]);
-    const componentRef = ref(null);
-    const isVisible = ref(false);
+const schedule1 = ref([
+  {time: '〜18:00', activity: '到着 ＆ 各自チェックイン済ませて荷物置く ＆ 自由行動', location: '博多駅周辺'},
+  {time: '17:30', activity: '貴大　博多空港にレンタカー取りに行く', location: '博多空港 国内線口', location_link: 'https://maps.app.goo.gl/xtngiRNRpEXtRegT7'},
+  {time: '17:50', activity: '貴大　コンパ止める', location: 'Dパーキング　福岡市須崎町第3', location_link: 'https://www.google.com/maps?q=%E3%80%92812-0028+%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8D%9A%E5%A4%9A%E5%8C%BA%E9%A0%88%E5%B4%8E%E7%94%BA%EF%BC%93%E2%88%92%EF%BC%92%EF%BC%95+D%E3%83%91%E3%83%BC%E3%82%AD%E3%83%B3%E3%82%B0+%E7%A6%8F%E5%B2%A1%E5%B8%82%E9%A0%88%E5%B4%8E%E7%94%BA%E7%AC%AC%EF%BC%93&ftid=0x3541914e0c2f55cb:0xa3037bbb0f04a47a&entry=gps&lucs=,94209859,47071704,47069508,47084304,94208457,94206605&g_ep=CAISDTYuMTAxLjMuNDE1NjAYACCs3wEqNiw5NDIwOTg1OSw0NzA3MTcwNCw0NzA2OTUwOCw0NzA4NDMwNCw5NDIwODQ1Nyw5NDIwNjYwNUICSlA%3D&g_st=ia'},
+  {time: '18:00', activity: '夕食　もつ鍋　楽天地？', location: '天神 アクロス福岡', location_link:'https://www.google.com/maps?ll=33.591471,130.402349&z=17&t=m&hl=ja&gl=US&mapclient=apiv3&cid=6724116355710339721', link: 'https://tabelog.com/fukuoka/A4001/A400103/40056554/'},
+  {time: '20:00', activity: '自由行動 & たいちゃんと博多美人探しの旅', location: ''},
+]);
 
-    useIntersectionObserver(
-        componentRef,
-        ([{ isIntersecting }], observerElement) => {
-          isVisible.value = isIntersecting;
-          if (isIntersecting) observerElement.unobserve(componentRef.value);
-        },
-        { threshold: 0.5 }
-    );
+const schedule2 = ref([
+  {time: '〜18:00', activity: '到着 ＆ 各自チェックイン済ませて荷物置く ＆ 自由行動', location: '博多駅周辺'},
+  {time: '17:30', activity: '貴大　博多空港にレンタカー取りに行く', location: '博多空港 国内線口', location_link: 'https://maps.app.goo.gl/xtngiRNRpEXtRegT7'},
+  {time: '17:50', activity: '貴大　コンパ止める', location: 'Dパーキング　福岡市須崎町第3', location_link: 'https://www.google.com/maps?q=%E3%80%92812-0028+%E7%A6%8F%E5%B2%A1%E7%9C%8C%E7%A6%8F%E5%B2%A1%E5%B8%82%E5%8D%9A%E5%A4%9A%E5%8C%BA%E9%A0%88%E5%B4%8E%E7%94%BA%EF%BC%93%E2%88%92%EF%BC%92%EF%BC%95+D%E3%83%91%E3%83%BC%E3%82%AD%E3%83%B3%E3%82%B0+%E7%A6%8F%E5%B2%A1%E5%B8%82%E9%A0%88%E5%B4%8E%E7%94%BA%E7%AC%AC%EF%BC%93&ftid=0x3541914e0c2f55cb:0xa3037bbb0f04a47a&entry=gps&lucs=,94209859,47071704,47069508,47084304,94208457,94206605&g_ep=CAISDTYuMTAxLjMuNDE1NjAYACCs3wEqNiw5NDIwOTg1OSw0NzA3MTcwNCw0NzA2OTUwOCw0NzA4NDMwNCw5NDIwODQ1Nyw5NDIwNjYwNUICSlA%3D&g_st=ia'},
+  {time: '18:00', activity: '夕食　もつ鍋　楽天地？', location: '天神 アクロス福岡', location_link:'https://www.google.com/maps?ll=33.591471,130.402349&z=17&t=m&hl=ja&gl=US&mapclient=apiv3&cid=6724116355710339721', link: 'https://tabelog.com/fukuoka/A4001/A400103/40056554/'},
+  {time: '20:00', activity: '自由行動 & たいちゃんと博多美人探しの旅', location: ''},
+]);
 
-    return {
-      schedule,
-      componentRef,
-      isVisible,
-    };
-  },
-};
+const table1Ref = ref(null);
+const table2Ref = ref(null);
+const table3Ref = ref(null);
+const isVisible1 = ref(false);
+const isVisible2 = ref(false);
+const isVisible3 = ref(false);
+
+useIntersectionObserver(
+    table1Ref,
+    ([{isIntersecting}]) => {
+      isVisible1.value = isIntersecting;
+    },
+    {threshold: 0.5}
+);
+useIntersectionObserver(
+    table2Ref,
+    ([{isIntersecting}]) => {
+      isVisible2.value = isIntersecting;
+    },
+    {threshold: 0.5}
+);
+useIntersectionObserver(
+    table3Ref,
+    ([{isIntersecting}]) => {
+      isVisible3.value = isIntersecting;
+    },
+    {threshold: 0.5}
+);
 </script>
 
 <style scoped>
+body {
+  background: #eee5db;
+}
 .component-container {
   opacity: 0;
+}
+
+.header-title  {
+  background-color: #fa0;
+}
+.text-center {
+  text-align: center;
 }
 /* テーブルのスタイル */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: #faf8f5;
 }
 
 th, td {
@@ -81,6 +154,7 @@ th {
 tr:hover {
   background-color: #f5f5f5;
 }
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
