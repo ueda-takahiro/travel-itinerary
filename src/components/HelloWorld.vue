@@ -98,11 +98,16 @@
           <div v-else>
             {{ item.location }}
           </div>
-
         </td>
       </tr>
       </tbody>
     </table>
+    <div class="">
+      <h3>ラーメン特集</h3>
+      <a v-for="(link, index) in mens" :key="index" target="_blank" :href="link" style="display: block">
+        {{ link }}
+      </a><br>
+    </div>
   </div>
 </template>
 
@@ -117,6 +122,7 @@ const schedule1 = ref([
   {time: '〜18:00', activity: '自由行動', location: ''},
   {time: '18:00', activity: 'ディナー　もつ鍋　楽天地？', location: '天神 アクロス福岡', location_link:'https://www.google.com/maps?ll=33.591471,130.402349&z=17&t=m&hl=ja&gl=US&mapclient=apiv3&cid=6724116355710339721', link: 'https://tabelog.com/fukuoka/A4001/A400103/40056554/'},
   {time: '20:00', activity: '自由行動 & たいちゃんと博多美人探しの旅', location: ''},
+  {time: '備考', activity: '鳥が食べたい', location: '鳥刺し', location_link: 'http://ryushow.jp/food/alacarte.html'},
 ]);
 
 const schedule2 = ref([
@@ -133,8 +139,17 @@ const schedule3 = ref([
   {time: '11:00', activity: 'グラバー園 & 天主堂 ＆ 眼鏡橋', location:'グラバー園', location_link: 'https://maps.app.goo.gl/BEnrup1aC6teNkM87'},
   {time: '12:00', activity: 'ランチ　中華街？'},
   {time: '〜16:30', activity: '自由行動'},
-  {time: '〜18:30', activity: '福岡空港到着'}
+  {time: '〜18:30', activity: '福岡空港到着'},
 ]);
+
+const mens = [
+  'https://maps.app.goo.gl/MViDbgddah6Fco4Q6',
+  'https://maps.app.goo.gl/9AHdZBgPMEgbueFL8',
+  'https://maps.app.goo.gl/23QDsYqt6uhHM6LW7',
+  'https://maps.app.goo.gl/bZ93ga2FVfTDvs4i7',
+  'https://maps.app.goo.gl/TJoqcsDCHPJjwxMK7',
+  'https://maps.app.goo.gl/KMnFfhhJQS1aLZ8L6'
+]
 
 const table1Ref = ref(null);
 const table2Ref = ref(null);
