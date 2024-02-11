@@ -1,15 +1,15 @@
 <template>
   <div>
     <h2>旅行の日程</h2>
-    <table ref="table1Ref" class="component-container" :class="{ 'fadeInUp': isVisible1 }">
+    <table ref="table1Ref" class="table component-container" :class="{ 'fadeInUp': isVisible1, 'fadeOut': !isVisible1 }">
       <thead>
       <tr>
         <th colspan="4" class="text-center header-title">
           <span>2024/3/18</span>
-          <h3 class="p-0">博多</h3>
+          <h3 class="m-0">博多</h3>
         </th>
       </tr>
-      <tr>
+      <tr class="pc-only">
         <th class="text-center">日付</th>
         <th class="text-center">活動</th>
         <th class="text-center">場所</th>
@@ -18,10 +18,10 @@
       </thead>
       <tbody>
       <tr v-for="(item, index) in schedule1" :key="index">
-        <td>{{ item.time }}</td>
-        <td>{{ item.activity }}</td>
-        <td>{{ item.location }}</td>
-        <td>
+        <td data-label="日付">{{ item.time }}</td>
+        <td data-label="活動">{{ item.activity }}</td>
+        <td data-label="場所">{{ item.location }}</td>
+        <td data-label="地図">
           <div v-if="item.location_link">
             <a target="_blank" :href="item.location_link">
               {{ item.location }}
@@ -35,7 +35,7 @@
       </tbody>
     </table>
 
-    <table ref="table2Ref" class="component-container" :class="{ 'fadeInUp': isVisible2 }">
+    <table ref="table2Ref" class="component-container" :class="{ 'fadeInUp': isVisible2, 'fadeOut': !isVisible2 }">
       <thead>
       <tr>
         <th colspan="4" class="text-center header-title">2024/3/19</th>
@@ -101,30 +101,30 @@ useIntersectionObserver(
     ([{isIntersecting}]) => {
       isVisible1.value = isIntersecting;
     },
-    {threshold: 0.5}
 );
 useIntersectionObserver(
     table2Ref,
     ([{isIntersecting}]) => {
       isVisible2.value = isIntersecting;
     },
-    {threshold: 0.5}
 );
 useIntersectionObserver(
     table3Ref,
     ([{isIntersecting}]) => {
       isVisible3.value = isIntersecting;
     },
-    {threshold: 0.5}
 );
 </script>
 
-<style scoped>
+<style>
 body {
   background: #eee5db;
 }
+</style>
+<style scoped>
 .component-container {
   opacity: 0;
+  width: 100%;
 }
 
 .header-title  {
@@ -155,6 +155,9 @@ tr:hover {
   background-color: #f5f5f5;
 }
 
+.m-0 {
+  margin: 0;
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -171,4 +174,55 @@ tr:hover {
   animation-duration: 1s;
   animation-fill-mode: both;
 }
+
+.fadeOut {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* レスポンシブデザインのスタイル */
+@media (max-width: 768px) {
+  .table, .table thead, .table tbody, .table th, .table td, .table tr {
+    display: block;
+  }
+
+  .table thead tr.pc-only {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  .table tr { border: 1px solid #ccc; }
+
+  .table td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 30%;
+    min-height: 24px;
+    text-align: left;
+  }
+
+  .table td:before {
+    /* ここでカスタムデータ属性を使用してラベルを表示 */
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
 </style>
