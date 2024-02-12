@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>ばあちゃんの夢をかなえる旅の日程</h2>
+    <h2>ばあちゃんの夢をかなえる旅</h2>
     <table ref="table1Ref" class="table component-container" :class="{ 'fadeInUp': isVisible1, 'fadeOut': !isVisible1 }">
       <thead>
       <tr>
@@ -35,7 +35,7 @@
       </tbody>
     </table>
 
-    <table ref="table2Ref" class="component-container" :class="{ 'fadeInUp': isVisible2, 'fadeOut': !isVisible2 }">
+    <table ref="table2Ref" class="table component-container" :class="{ 'fadeInUp': isVisible2, 'fadeOut': !isVisible2 }">
       <thead>
       <tr>
         <th colspan="4" class="text-center header-title">
@@ -43,7 +43,7 @@
           <h3 class="m-0">ハウステンボス</h3>
         </th>
       </tr>
-      <tr>
+      <tr class="pc-only">
         <th class="text-center">日付</th>
         <th class="text-center">活動</th>
         <th class="text-center">場所</th>
@@ -52,10 +52,10 @@
       </thead>
       <tbody>
       <tr v-for="(item, index) in schedule2" :key="index">
-        <td>{{ item.time }}</td>
-        <td>{{ item.activity }}</td>
-        <td>{{ item.location }}</td>
-        <td>
+        <td data-label="日付">{{ item.time }}</td>
+        <td data-label="活動">{{ item.activity }}</td>
+        <td data-label="場所">{{ item.location }}</td>
+        <td data-label="地図">
           <div v-if="item.location_link">
             <a target="_blank" :href="item.location_link">
               {{ item.location }}
@@ -69,7 +69,7 @@
       </tr>
       </tbody>
     </table>
-    <table ref="table3Ref" class="component-container" :class="{ 'fadeInUp': isVisible3, 'fadeOut': !isVisible3 }">
+    <table ref="table3Ref" class="table component-container" :class="{ 'fadeInUp': isVisible3, 'fadeOut': !isVisible3 }">
       <thead>
       <tr>
         <th colspan="4" class="text-center header-title">
@@ -77,7 +77,7 @@
           <h3 class="m-0">長崎</h3>
         </th>
       </tr>
-      <tr>
+      <tr class="pc-only">
         <th class="text-center">日付</th>
         <th class="text-center">活動</th>
         <th class="text-center">場所</th>
@@ -86,10 +86,10 @@
       </thead>
       <tbody>
       <tr v-for="(item, index) in schedule3" :key="index">
-        <td>{{ item.time }}</td>
-        <td>{{ item.activity }}</td>
-        <td>{{ item.location }}</td>
-        <td>
+        <td data-label="日付">{{ item.time }}</td>
+        <td data-label="活動">{{ item.activity }}</td>
+        <td data-label="場所">{{ item.location }}</td>
+        <td data-label="地図">
           <div v-if="item.location_link">
             <a target="_blank" :href="item.location_link">
               {{ item.location }}
@@ -130,8 +130,8 @@ const schedule2 = ref([
   {time: '9:45', activity: '出発', location: '糸島、伊万里、佐世保経由'},
   {time: '10:30〜11:30', activity: '寄り道 有田焼　道の駅など', location: '伊万里', location_link: 'https://maps.app.goo.gl/72DG7h21JbkWwGp68'},
   {time: '12:30', activity: 'ランチ　伊万里牛？', location: '伊万里', location_link: 'https://maps.app.goo.gl/Zc19UBLtYFKyvRwQ7'},
-  {time: '13:30', activity: 'ハウステボス到着', location: ''},
-  {time: '', activity: 'ディナー　ちゃんぽん？', location: '佐世保かハウステンボス'},
+  {time: '13:30', activity: 'ハウステボス到着', location: 'ハウステンボス', location_link: 'https://maps.app.goo.gl/ptTznrkm1kbgArnJA'},
+  {time: '', activity: 'ディナー　ちゃんぽん？', location: '佐世保かハウステンボス内', location_link: 'https://maps.app.goo.gl/qUFwgJTSLjSYWsB1A'},
 ]);
 
 const schedule3 = ref([
